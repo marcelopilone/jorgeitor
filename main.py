@@ -30,6 +30,7 @@ Config.set('graphics', 'height', 800)
 class MainApp(App,BoxLayout):
     theme_cls = ThemeManager()
 
+
     def guardarEstado(self,val):
         base = conexionBaseDeDatos()
         engine = base.conexion
