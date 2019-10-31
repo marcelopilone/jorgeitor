@@ -1,5 +1,15 @@
 <screen1>:
     id: elscreen   
+<ver_estados>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 0
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    Label:
+        text: "sadasdasddas"
+
 
 NavigationLayout:
     id: todoDeTodo
@@ -9,117 +19,70 @@ NavigationLayout:
     	NavigationDrawerIconButton:
             text: "Alta Provedores"
             on_release:
-                screen_manager.current = "screen1"
+                screen_manager.current = "alta_proveedores"
     	NavigationDrawerIconButton:
             text: "Configuración"
             on_release:
-                screen_manager.current = "screen1"
+                screen_manager.current = "configuracion"
         NavigationDrawerIconButton:
-            text: "Estados"
+            text: "Cargar Estados"
             on_release:
-                screen_manager.current = "screen1"
+                screen_manager.current = "cargar_estados"
         NavigationDrawerIconButton:
-            text: "Screen 2"
+            text: "Ver Estados"
             on_release:
-                screen_manager.current = "screen2"
+                screen_manager.current = "ver_estados"    
     BoxLayout:
         orientation: 'vertical'
         MDToolbar:
             title: "Jorgeitor"
             md_bg_color: app.theme_cls.primary_color
             left_action_items: [['menu', lambda x: root.toggle_nav_drawer()]]
-        MDLabel:
-            text: "Aca subis todos los datos re piola"
+        BoxLayout:
+            size_hint: .8,.8
+            pos_hint: {"center_x":.5,"center_y":.5}                            
         ScreenManager:
-            id: screen_manager 
+            id: screen_manager
             Screen:
-                name: "screen1"
+                name: "alta_proveedores"
+                Label:
+                    text: "Ver Alta Provedores"
+            Screen:
+                name: "configuracion"
+                Label:
+                    text: "Ver configuraciones"
+            Screen:
+                name: "cargar_estados"
+                FloatLayout:
+                    pos_hint: {"center_x":.5,"center_y":.50}
+                    spacing: dp(10) #espacio entre labels
+                    orientation: 'vertical'
+                    MDLabel:
+                        text: "Cargar estados"
                 GridLayout:
                     size_hint: .8,.8 #ancho de input
                     pos_hint: {"center_x":.5,"center_y":.5}
                     spacing: dp(10) #espacio entre labels
                     orientation: 'vertical'
-                    cols: 4
+                    cols: 4                    
                     TextInput:
-                        id: txt_input_email_uno
-                        hint_text: "Email"
-                        helper_text: "Ingresa tu email papa"
+                        id: txt_input_nombre_estado
+                        hint_text: "Nombre del estado"
+                        helper_text: "Ingresar el nombre del estado"
                         #helper_text_mode: "on_focus"
                         required: True
-                    MDTextField: 
-                        id: "email_dos"
-                        hint_text: "Email"
-                        helper_text: "Ingresa tu email papa"
-                        #helper_text_mode: "on_focus"
-                        required: True
-                    MDTextField: 
-                        name: "email_tres"
-                        hint_text: "Email"
-                        helper_text: "Ingresa tu email papa"
-                        #helper_text_mode: "on_focus"
-                        required: True
-                    MDTextField: 
-                        name: "email_cuatro"
-                        hint_text: "Email"
-                        helper_text: "Ingresa tu email papa"
-                        #helper_text_mode: "on_focus"
-                        required: True
-                    MDTextField: 
-                        name: "email_cinco"
-                        hint_text: "Email"
-                        helper_text: "Ingresa tu email papa"
-                        #helper_text_mode: "on_focus"
-                        required: True
-                    MDTextField: 
-                        name: "email_seis"
-                        hint_text: "Email"
-                        helper_text: "Ingresa tu email papa"
-                        helper_text_mode: "on_focus"
-                        foreground_color: 1,0,1,1
-                        max_text_lenght: 12
-                    MDTextField: 
-                        name: "email_siete"
-                        hint_text: "Email"
-                        helper_text: "Ingresa tu email papa"
-                        helper_text_mode: "on_focus"
-                        foreground_color: 1,0,1,1
-                        max_text_lenght: 12
-                    MDTextField: 
-                        name: "email_ocho"
-                        hint_text: "Email"
-                        helper_text: "Ingresa tu email papa"
-                        helper_text_mode: "on_focus"
-                        foreground_color: 1,0,1,1
-                        max_text_lenght: 12  
+                    #MDTextField: 
+                    #    id: "email_dos"
+                    #    hint_text: "Email"
+                    #    helper_text: "Ingresa tu email papa"
+                    #    helper_text_mode: "on_focus"
+                    #    required: True
                     BoxLayout:
-                        Button:
-                            text: "Resetear"
-                            on_press: app.resetear()
                         Button:
                             id: 'botonaso'
                             text: "Guardar"
-                            on_press: app.guardarEstado(txt_input_email_uno.text)
-
-            Screen:
-                name: "screen2"
-                Label:
-                    text: "Razon social: "
-
-                BoxLayout:
-                    size_hint: .8,.8
-                    pos_hint: {"center_x":.5,"center_y":.5}
-                    spacing: dp(100)
-                    orientation: 'vertical'
-                    MDTextField: 
-                        hint_text: "Email"
-                        helper_text: "Ingresa tu email papa"
-                        helper_text_mode: "on_focus"
-                BoxLayout:
-                    size_hint: .8,.8
-                    pos_hint: {"center_x":.5,"center_y":.10}
-                    spacing: dp(100)
-                    orientation: 'vertical'
-                    MDTextField: 
-                        hint_text: "Email"
-                        helper_text: "Ingresa tu email papa"
-                        helper_text_mode: "on_focus"                 
+                            on_press: app.guardarEstado(txt_input_nombre_estado.text)                     
+            ver_estados:
+                name: "ver_estados"
+                
+                                
