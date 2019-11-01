@@ -33,19 +33,25 @@ class MainApp(App,BoxLayout,GridLayout):
 
 
     def guardarEstado(self,val):
-        base = conexionBaseDeDatos()
-        engine = base.conexion
-        connection = engine.connect()
-        metadata = db.MetaData()
-        estados = db.Table('estados', metadata, autoload=True, autoload_with=engine)
-        fechaCreacion = datetime.datetime.now()
-        query = db.insert(estados).values(name=val,created=fechaCreacion) 
-        ResultProxy = connection.execute(query)
-        if( ResultProxy ):
+        if not val:
             pop = Popup(title='Estados',
-            content=Label(text='Se ha creado el estado con exito.'),
+            content=Label(text='Por favor no cargue un estado vacio.'),
             size_hint=(None, None), size=(400, 400))
             pop.open()
+        else:
+            base = conexionBaseDeDatos()
+            engine = base.conexion
+            connection = engine.connect()
+            metadata = db.MetaData()
+            estados = db.Table('estados', metadata, autoload=True, autoload_with=engine)
+            fechaCreacion = datetime.datetime.now()
+            query = db.insert(estados).values(name=val,created=fechaCreacion) 
+            ResultProxy = connection.execute(query)
+            if( ResultProxy ):
+                pop = Popup(title='Estados',
+                content=Label(text='Se ha creado el estado con exito.'),
+                size_hint=(None, None), size=(400, 400))
+                pop.open()
 
     def mostrarEstados(self):
         print('jaja')
