@@ -22,6 +22,7 @@ import sqlalchemy as db
 import json
 import pandas as pd
 import datetime
+from pprint import pprint # esto es como el debug que usamos en cakephp se usa pprint( var )
 ## archivos python hechos por nosotros
 from database import *
 
@@ -54,6 +55,7 @@ class MainApp(App,BoxLayout,GridLayout):
                 pop.open()
 
     def mostrarEstados(self, **kwargs):
+        ## Agrego las cabeceras de la tabla
         self.root.ids.listado_de_estados.clear_widgets()
         estadoName = Label(text='[color=000000]Nombre[/color]',font_size='20sp',markup = True)
         self.root.ids.listado_de_estados.add_widget(estadoName)
@@ -61,6 +63,32 @@ class MainApp(App,BoxLayout,GridLayout):
         self.root.ids.listado_de_estados.add_widget(fechaDeCreacion)
         acciones = Label(text='[color=000000]Acciones[/color]',font_size='20sp',markup = True)
         self.root.ids.listado_de_estados.add_widget(acciones)
+
+        base = conexionBaseDeDatos()
+        engine = base.conexion
+        connection = engine.connect()
+        metadata = db.MetaData()
+        estados = db.Table('estados', metadata, autoload=True, autoload_with=engine)
+        query = db.select([estados])
+        ResultProxy = connection.execute(query)
+        ResultSet = ResultProxy.fetchall()
+
+        def recorrerArray( arrayVar ):
+            for x in arrayVar[:20]:
+                estadoName = Label(text='[color=000000]'+x[1]+'[/color]',font_size='20sp',markup = True)
+                self.root.ids.listado_de_estados.add_widget(estadoName)
+                #estadoFechaCreacion = Label(text='[color=000000]'+x[2]+'[/color]',font_size='20sp',markup = True)
+                print(x[2])
+                #self.root.ids.listado_de_estados.add_widget(estadoFechaCreacion)
+                acciones = Label(text='[color=000000]Acciones[/color]',font_size='20sp',markup = True)
+                self.root.ids.listado_de_estados.add_widget(acciones)
+                #accionesPrueba = Label(text='[color=000000]Acciones[/color]',font_size='20sp',markup = True)
+                #self.root.ids.listado_de_estados.add_widget(accionesPrueba)
+
+        print(recorrerArray( ResultSet ))
+        
+
+
         '''layoutGrid = GridLayout(size_hint=(.8,.8),pos_hint={"center_x":.5,"center_y":.5},orientation='vertical',cols=4 )
 
         self.root.ids.listado_de_estados.add_widget(layoutGrid)
