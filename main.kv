@@ -19,7 +19,7 @@ NavigationLayout:
     	NavigationDrawerIconButton:
             text: "Alta Provedores"
             on_release:
-                screen_manager.current = "alta_proveedores"
+                screen_manager.current = "alta_proveedores"            
     	NavigationDrawerIconButton:
             text: "Configuración"
             on_release:
@@ -40,8 +40,10 @@ NavigationLayout:
             md_bg_color: app.theme_cls.primary_color
             left_action_items: [['menu', lambda x: root.toggle_nav_drawer()]]
         BoxLayout:
-            #size_hint: .8,.8
-            #pos_hint: {"center_x":.5,"center_y":.5}                            
+            size_hint: .8,.8
+            pos_hint: {"center_x":.5,"center_y":.5}
+        #Button:
+        #    text: "asdasdasd"
         ScreenManager:
             id: screen_manager
             Screen:
@@ -73,8 +75,14 @@ NavigationLayout:
                             pos: root.width-self.width, root.height / 2 - self.height / 2
                             on_press: app.guardarEstado(txt_input_nombre_estado.text)
             Screen:                
-                id: listado_de_estados
                 name: "ver_estados"
+                GridLayout:
+                    id: listado_de_estados
+                    size_hint: .8,.8 #ancho de input
+                    pos_hint: {"center_x":.5,"center_y":.5}
+                    spacing: dp(10) #espacio entre labels
+                    cols:3
+                    
 
                 
                                 

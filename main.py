@@ -53,10 +53,14 @@ class MainApp(App,BoxLayout,GridLayout):
                 size_hint=(None, None), size=(400, 400))
                 pop.open()
 
-    def mostrarEstados(self):
-        print('jaja')
-        btn1 = Button(text='Hello')
-        self.root.ids.listado_de_estados.add_widget(btn1)
+    def mostrarEstados(self, **kwargs):
+        self.root.ids.listado_de_estados.clear_widgets()
+        estadoName = Label(text='[color=000000]Nombre[/color]',font_size='20sp',markup = True)
+        self.root.ids.listado_de_estados.add_widget(estadoName)
+        fechaDeCreacion = Label(text='[color=000000]Fecha creación[/color]',font_size='20sp',markup = True)
+        self.root.ids.listado_de_estados.add_widget(fechaDeCreacion)
+        acciones = Label(text='[color=000000]Acciones[/color]',font_size='20sp',markup = True)
+        self.root.ids.listado_de_estados.add_widget(acciones)
         '''layoutGrid = GridLayout(size_hint=(.8,.8),pos_hint={"center_x":.5,"center_y":.5},orientation='vertical',cols=4 )
 
         self.root.ids.listado_de_estados.add_widget(layoutGrid)
