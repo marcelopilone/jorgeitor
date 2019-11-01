@@ -32,7 +32,7 @@ NavigationLayout:
             text: "Ver Estados"
             on_release:
                 screen_manager.current = "ver_estados" 
-            on_press: app.probando()              
+            on_press: app.mostrarEstados()              
     BoxLayout:
         orientation: 'vertical'
         MDToolbar:
@@ -54,37 +54,27 @@ NavigationLayout:
                     text: "Ver configuraciones"
             Screen:
                 name: "cargar_estados"
-                FloatLayout:
-                    pos_hint: {"center_x":.5,"center_y":.50}
-                    spacing: dp(10) #espacio entre labels
-                    orientation: 'vertical'
-                    MDLabel:
-                        text: "Cargar estados"
-                GridLayout:
+                BoxLayout:
                     size_hint: .8,.8 #ancho de input
                     pos_hint: {"center_x":.5,"center_y":.5}
                     spacing: dp(10) #espacio entre labels
                     orientation: 'vertical'
-                    cols: 4                    
-                    TextInput:
+                    MDTextField:
                         id: txt_input_nombre_estado
                         hint_text: "Nombre del estado"
                         helper_text: "Ingresar el nombre del estado"
-                        #helper_text_mode: "on_focus"
+                        helper_text_mode: "on_focus"
                         required: True
-                    #MDTextField: 
-                    #    id: "email_dos"
-                    #    hint_text: "Email"
-                    #    helper_text: "Ingresa tu email papa"
-                    #    helper_text_mode: "on_focus"
-                    #    required: True
                     BoxLayout:
-                        Button:
+                        MDRaisedButton:
                             id: 'botonaso'
                             text: "Guardar"
+                            size_hint: 0.4, 0.2
+                            pos: root.width-self.width, root.height / 2 - self.height / 2
                             on_press: app.guardarEstado(txt_input_nombre_estado.text)
-            Screen:                    
+            Screen:                
                 id: listado_de_estados
                 name: "ver_estados"
+
                 
                                 

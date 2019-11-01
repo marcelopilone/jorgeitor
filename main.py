@@ -28,7 +28,7 @@ from database import *
 Config.set('graphics', 'width', 1600)
 Config.set('graphics', 'height', 800)
 
-class MainApp(App,BoxLayout):
+class MainApp(App,BoxLayout,GridLayout):
     theme_cls = ThemeManager()
 
 
@@ -47,15 +47,16 @@ class MainApp(App,BoxLayout):
             size_hint=(None, None), size=(400, 400))
             pop.open()
 
-    def probando(self):
-        self.root.ids.listado_de_estados.add_widget(Label(text='buscar'))
-        layout = BoxLayout(orientation='vertical')
-        self.root.ids.listado_de_estados.add_widget(layout)
-        btn1 = Button(text='Hello', size_hint=(.7, 1))
-        btn2 = Button(text='World', size_hint=(.3, 1))
+    def mostrarEstados(self):
+        print('jaja')
+        btn1 = Button(text='Hello')
         self.root.ids.listado_de_estados.add_widget(btn1)
-        self.root.ids.listado_de_estados.add_widget(btn2)
-        print('asdasd')
+        '''layoutGrid = GridLayout(size_hint=(.8,.8),pos_hint={"center_x":.5,"center_y":.5},orientation='vertical',cols=4 )
+
+        self.root.ids.listado_de_estados.add_widget(layoutGrid)
+        
+
+        print('asdasd')'''
 
 class ver_estados(Screen):
     pass
