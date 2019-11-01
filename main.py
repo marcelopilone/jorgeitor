@@ -10,6 +10,7 @@ from kivy.config import Config
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.popup import Popup
 from kivy.uix.widget import Widget
+from kivy.uix.button import Button
 ## material design
 from kivymd.theming import ThemeManager
 ## python
@@ -45,6 +46,16 @@ class MainApp(App,BoxLayout):
             content=Label(text='Se ha creado el estado con exito.'),
             size_hint=(None, None), size=(400, 400))
             pop.open()
+
+    def probando(self):
+        self.root.ids.listado_de_estados.add_widget(Label(text='buscar'))
+        layout = BoxLayout(orientation='vertical')
+        self.root.ids.listado_de_estados.add_widget(layout)
+        btn1 = Button(text='Hello', size_hint=(.7, 1))
+        btn2 = Button(text='World', size_hint=(.3, 1))
+        self.root.ids.listado_de_estados.add_widget(btn1)
+        self.root.ids.listado_de_estados.add_widget(btn2)
+        print('asdasd')
 
 class ver_estados(Screen):
     pass

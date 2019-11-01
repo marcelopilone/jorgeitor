@@ -31,7 +31,8 @@ NavigationLayout:
         NavigationDrawerIconButton:
             text: "Ver Estados"
             on_release:
-                screen_manager.current = "ver_estados"    
+                screen_manager.current = "ver_estados" 
+            on_press: app.probando()              
     BoxLayout:
         orientation: 'vertical'
         MDToolbar:
@@ -81,8 +82,9 @@ NavigationLayout:
                         Button:
                             id: 'botonaso'
                             text: "Guardar"
-                            on_press: app.guardarEstado(txt_input_nombre_estado.text)                     
-            ver_estados:
+                            on_press: app.guardarEstado(txt_input_nombre_estado.text)
+            Screen:                    
+                id: listado_de_estados
                 name: "ver_estados"
                 
                                 
