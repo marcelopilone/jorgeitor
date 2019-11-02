@@ -13,6 +13,7 @@ from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 ## material design
 from kivymd.theming import ThemeManager
+from kivymd.uix.button import MDIconButton
 ## python
 import sys #esto sirve para poner un die con sys.exit()
 import json
@@ -21,7 +22,7 @@ import configparser
 import sqlalchemy as db
 import json
 import pandas as pd
-import datetime
+from datetime import datetime
 from pprint import pprint # esto es como el debug que usamos en cakephp se usa pprint( var )
 ## archivos python hechos por nosotros
 from database import *
@@ -54,15 +55,22 @@ class MainApp(App,BoxLayout,GridLayout):
                 size_hint=(None, None), size=(400, 400))
                 pop.open()
 
+    
+
+    '''
+        Muestra los estados
+    '''            
     def mostrarEstados(self, **kwargs):
         ## Agrego las cabeceras de la tabla
         self.root.ids.listado_de_estados.clear_widgets()
-        estadoName = Label(text='[color=000000]Nombre[/color]',font_size='20sp',markup = True)
+        estadoName = Label(text='[color=000000]Nombre[/color]',font_size='20sp',markup = True,line_height = 150)
         self.root.ids.listado_de_estados.add_widget(estadoName)
-        fechaDeCreacion = Label(text='[color=000000]Fecha creación[/color]',font_size='20sp',markup = True)
+        fechaDeCreacion = Label(text='[color=000000]Fecha creación[/color]',font_size='20sp',markup = True,line_height = 150)
         self.root.ids.listado_de_estados.add_widget(fechaDeCreacion)
-        acciones = Label(text='[color=000000]Acciones[/color]',font_size='20sp',markup = True)
+        acciones = Label(text='[color=000000]Acciones[/color]',font_size='20sp',markup = True,line_height = 150)
         self.root.ids.listado_de_estados.add_widget(acciones)
+        campoVacio = Label(text='[color=000000][/color]',font_size='20sp',markup = True,line_height = 150)
+        self.root.ids.listado_de_estados.add_widget(campoVacio)
 
         base = conexionBaseDeDatos()
         engine = base.conexion
@@ -73,17 +81,32 @@ class MainApp(App,BoxLayout,GridLayout):
         ResultProxy = connection.execute(query)
         ResultSet = ResultProxy.fetchall()
 
+        def eliminarEstado(self,idEstado):
+            print(idEstado)
+
+        def editarEstado(self,idEstado):
+            print(idEstado)
+
+        def listarBotonesParaEditar(self,idEstado):
+            botonEliminar = Button(text='Editar',on_press = lambda x:editarEstado(self,idEstado))
+            self.root.ids.listado_de_estados.add_widget(botonEliminar)
+
+        def listarBotonesParaEliminar(self,idEstado):
+            botonEliminar = Button(text='Eliminar',on_press = lambda x:eliminarEstado(self,idEstado))
+            self.root.ids.listado_de_estados.add_widget(botonEliminar)
+
         def recorrerArray( arrayVar ):
             for x in arrayVar[:20]:
                 estadoName = Label(text='[color=000000]'+x[1]+'[/color]',font_size='20sp',markup = True)
                 self.root.ids.listado_de_estados.add_widget(estadoName)
-                #estadoFechaCreacion = Label(text='[color=000000]'+x[2]+'[/color]',font_size='20sp',markup = True)
-                print(x[2])
-                #self.root.ids.listado_de_estados.add_widget(estadoFechaCreacion)
-                acciones = Label(text='[color=000000]Acciones[/color]',font_size='20sp',markup = True)
-                self.root.ids.listado_de_estados.add_widget(acciones)
-                #accionesPrueba = Label(text='[color=000000]Acciones[/color]',font_size='20sp',markup = True)
-                #self.root.ids.listado_de_estados.add_widget(accionesPrueba)
+                fecha = x[2]
+                fecha_final = fecha.strftime("%m/%d/%Y, %H:%M:%S")
+                estadoFechaCreacion = Label(text='[color=000000]'+fecha_final+'[/color]',font_size='20sp',markup = True)
+                self.root.ids.listado_de_estados.add_widget(estadoFechaCreacion)
+                idDelEstado = x[0]
+                listarBotonesParaEditar(self,idDelEstado)
+                listarBotonesParaEliminar(self,idDelEstado)
+        
 
         print(recorrerArray( ResultSet ))
         
