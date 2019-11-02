@@ -83,7 +83,6 @@ class MainApp(App,BoxLayout,GridLayout):
             results = connection.execute(query)
             if(results):
                 self.root.ids.listado_de_estados.clear_widgets()
-                Clock.schedule_once(App.get_running_app().mostrarEstados)
 
         def editarEstado(self,idEstado):
             print(idEstado)
