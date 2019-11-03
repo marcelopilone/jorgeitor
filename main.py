@@ -74,7 +74,7 @@ class MainApp(App,BoxLayout,GridLayout):
         metadata = db.MetaData()
         estados = db.Table('estados', metadata, autoload=True, autoload_with=engine)
 
-        def eliminarEstado(self,idEstado):
+        def eliminarEstado(self,idEstado,estadoName):
             base = conexionBaseDeDatos()
             engine = base.conexion
             connection = engine.connect()
@@ -82,7 +82,7 @@ class MainApp(App,BoxLayout,GridLayout):
             query = query.where(estados.columns.id == idEstado)
             results = connection.execute(query)
             if(results):
-                self.root.ids.listado_de_estados.clear_widgets()
+                self.root.ids.listado_de_estados.remove_widget(estadoName)
 
         def editarEstado(self,idEstado):
             print(idEstado)
@@ -91,8 +91,8 @@ class MainApp(App,BoxLayout,GridLayout):
             botonEliminar = Button(text='Editar',on_press = lambda x:editarEstado(self,idEstado))
             self.root.ids.listado_de_estados.add_widget(botonEliminar)
 
-        def listarBotonesParaEliminar(self,idEstado):
-            botonEliminar = Button(text='Eliminar',on_press = lambda x:eliminarEstado(self,idEstado))
+        def listarBotonesParaEliminar(self,idEstado,estadoName):
+            botonEliminar = Button(text='Eliminar',on_press = lambda x:eliminarEstado(self,idEstado,estadoName))
             self.root.ids.listado_de_estados.add_widget(botonEliminar)
 
         def recorrerArray( arrayVar ):
@@ -105,12 +105,12 @@ class MainApp(App,BoxLayout,GridLayout):
                 self.root.ids.listado_de_estados.add_widget(estadoFechaCreacion)
                 idDelEstado = x[0]
                 listarBotonesParaEditar(self,idDelEstado)
-                listarBotonesParaEliminar(self,idDelEstado)
+                listarBotonesParaEliminar(self,idDelEstado,estadoName)
 
         def mostrarTabla():
             ## Agrego las cabeceras de la tabla
             self.root.ids.listado_de_estados.clear_widgets()
-            estadoName = Label(text='[color=000000]Nombre[/color]',font_size='20sp',markup = True,line_height = 150)
+            estadoName = Label(id='hola',text='[color=000000]Nombre[/color]',font_size='20sp',markup = True,line_height = 150)
             self.root.ids.listado_de_estados.add_widget(estadoName)
             fechaDeCreacion = Label(text='[color=000000]Fecha creación[/color]',font_size='20sp',markup = True,line_height = 150)
             self.root.ids.listado_de_estados.add_widget(fechaDeCreacion)
