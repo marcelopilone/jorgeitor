@@ -117,7 +117,8 @@ class MainApp(App,BoxLayout,GridLayout):
                 estadoName = Label(text='[color=000000]'+x[1]+'[/color]',font_size='20sp',markup = True)
                 self.root.ids.listado_de_estados.add_widget(estadoName)
                 fecha = x[2]
-                fecha_final = fecha.strftime("%m/%d/%Y, %H:%M:%S")
+                #fecha_final = fecha.strftime("%m/%d/%Y, %H:%M:%S")
+                fecha_final = fecha.strftime("%m/%d/%Y")
                 estadoFechaCreacion = Label(text='[color=000000]'+fecha_final+'[/color]',font_size='20sp',markup = True)
                 self.root.ids.listado_de_estados.add_widget(estadoFechaCreacion)
                 idDelEstado = x[0]
@@ -126,13 +127,13 @@ class MainApp(App,BoxLayout,GridLayout):
         def mostrarTabla():
             ## Agrego las cabeceras de la tabla
             self.root.ids.listado_de_estados.clear_widgets()
-            estadoName = Label(id='hola',text='[color=000000]Nombre[/color]',font_size='20sp',markup = True,line_height = 150)
+            estadoName = Label(id='hola',text='[color=000000]Nombre[/color]',font_size='22sp',markup = True,line_height = 150)
             self.root.ids.listado_de_estados.add_widget(estadoName)
-            fechaDeCreacion = Label(text='[color=000000]Fecha creación[/color]',font_size='20sp',markup = True,line_height = 150)
+            fechaDeCreacion = Label(text='[color=000000]Fecha creación[/color]',font_size='22sp',markup = True,line_height = 150)
             self.root.ids.listado_de_estados.add_widget(fechaDeCreacion)
-            acciones = Label(text='[color=000000]Acciones[/color]',font_size='20sp',markup = True,line_height = 150)
+            acciones = Label(text='[color=000000]Acciones[/color]',font_size='22sp',markup = True,line_height = 150)
             self.root.ids.listado_de_estados.add_widget(acciones)
-            campoVacio = Label(text='[color=000000][/color]',font_size='20sp',markup = True,line_height = 150)
+            campoVacio = Label(text='[color=000000][/color]',font_size='22sp',markup = True,line_height = 150)
             self.root.ids.listado_de_estados.add_widget(campoVacio)
             # traigo los datos            
             query = db.select([estados])

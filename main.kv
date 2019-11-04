@@ -39,9 +39,9 @@ NavigationLayout:
             title: "Jorgeitor"
             md_bg_color: app.theme_cls.primary_color
             left_action_items: [['menu', lambda x: root.toggle_nav_drawer()]]
-        BoxLayout:
-            size_hint: .8,.8
-            pos_hint: {"center_x":.5,"center_y":.5}
+        #BoxLayout: 
+            #size_hint: .8,.8
+            #pos_hint: {"center_x":.5,"center_y":.5}
         #Button:
         #    text: "asdasdasd"
         ScreenManager:
@@ -77,20 +77,18 @@ NavigationLayout:
             Screen:                
                 name: "ver_estados"
                 ScrollView:
-                    do_scroll_x: False
-                    do_scroll_y: True
-                    size: self.size
                     GridLayout:
                         id: listado_de_estados
                         size_hint: .8,.8 #ancho de input
                         size_hint_y: None
                         pos_hint: {"center_x":.5,"center_y":.5}
-                        spacing: dp(10) #espacio entre labels
+                        height: self.minimum_height
+                        spacing: dp(100) #espacio entre labels
                         cols:4
-                        row_default_height: '20dp'
+                        row_default_height: '48dp'
                         row_force_default: True
-                        spacing: 0, 0
-                        padding: 0, 0
+                        padding:[10,10,10,10]
+                        spacing: 10, 10
                     
 
                 
