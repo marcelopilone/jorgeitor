@@ -11,6 +11,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.popup import Popup
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
+from kivy.uix.textinput import TextInput
 ## material design
 from kivymd.theming import ThemeManager
 from kivymd.uix.button import MDIconButton
@@ -89,7 +90,20 @@ class MainApp(App,BoxLayout,GridLayout):
                 self.root.ids.listado_de_estados.remove_widget(botonEliminar)
 
         def editarEstado(self,idEstado):
-            print(idEstado)
+
+            query = db.select([estados]).where(estados.columns.id == idEstado)
+            ResultProxy = connection.execute(query)
+            ResultSet = ResultProxy.fetchall()
+            estadoAnterior = ResultSet[0][1];
+            layout       = BoxLayout( padding = 10 )
+            inputEdicion = TextInput(text = estadoAnterior)
+
+            layout.add_widget(inputEdicion)
+
+            pop = Popup(title='Modificar estado',
+            content= layout,
+            size_hint=(None, None), size=(400, 400))
+            pop.open()
 
         def listarBotones(self,idEstado,estadoName,estadoFechaCreacion):
             botonEditar = Button(text='Editar',on_press = lambda x:editarEstado(self,idEstado))
@@ -129,12 +143,6 @@ class MainApp(App,BoxLayout,GridLayout):
 
         mostrarTabla()
 
-        '''layoutGrid = GridLayout(size_hint=(.8,.8),pos_hint={"center_x":.5,"center_y":.5},orientation='vertical',cols=4 )
-
-        self.root.ids.listado_de_estados.add_widget(layoutGrid)
-        
-
-        print('asdasd')'''
 
 class ver_estados(Screen):
     pass
