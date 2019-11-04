@@ -74,7 +74,7 @@ class MainApp(App,BoxLayout,GridLayout):
         metadata = db.MetaData()
         estados = db.Table('estados', metadata, autoload=True, autoload_with=engine)
 
-        def eliminarEstado(self,idEstado,estadoName):
+        def eliminarEstado(self,idEstado,estadoName,estadoFechaCreacion,botonEditar,botonEliminar):
             base = conexionBaseDeDatos()
             engine = base.conexion
             connection = engine.connect()
@@ -83,16 +83,19 @@ class MainApp(App,BoxLayout,GridLayout):
             results = connection.execute(query)
             if(results):
                 self.root.ids.listado_de_estados.remove_widget(estadoName)
+                self.root.ids.listado_de_estados.remove_widget(estadoFechaCreacion)
+                self.root.ids.listado_de_estados.remove_widget(estadoName)
+                self.root.ids.listado_de_estados.remove_widget(botonEditar)
+                self.root.ids.listado_de_estados.remove_widget(botonEliminar)
 
         def editarEstado(self,idEstado):
             print(idEstado)
 
-        def listarBotonesParaEditar(self,idEstado):
-            botonEliminar = Button(text='Editar',on_press = lambda x:editarEstado(self,idEstado))
-            self.root.ids.listado_de_estados.add_widget(botonEliminar)
-
-        def listarBotonesParaEliminar(self,idEstado,estadoName):
-            botonEliminar = Button(text='Eliminar',on_press = lambda x:eliminarEstado(self,idEstado,estadoName))
+        def listarBotones(self,idEstado,estadoName,estadoFechaCreacion):
+            botonEditar = Button(text='Editar',on_press = lambda x:editarEstado(self,idEstado))
+            self.root.ids.listado_de_estados.add_widget(botonEditar)
+            botonEliminar = Button(text='Eliminar',on_press = lambda x:eliminarEstado(self,idEstado,estadoName,estadoFechaCreacion,botonEditar))
+            botonEliminar = Button(text='Eliminar',on_press = lambda x:eliminarEstado(self,idEstado,estadoName,estadoFechaCreacion,botonEditar,botonEliminar))
             self.root.ids.listado_de_estados.add_widget(botonEliminar)
 
         def recorrerArray( arrayVar ):
@@ -104,8 +107,7 @@ class MainApp(App,BoxLayout,GridLayout):
                 estadoFechaCreacion = Label(text='[color=000000]'+fecha_final+'[/color]',font_size='20sp',markup = True)
                 self.root.ids.listado_de_estados.add_widget(estadoFechaCreacion)
                 idDelEstado = x[0]
-                listarBotonesParaEditar(self,idDelEstado)
-                listarBotonesParaEliminar(self,idDelEstado,estadoName)
+                listarBotones(self,idDelEstado,estadoName,estadoFechaCreacion)
 
         def mostrarTabla():
             ## Agrego las cabeceras de la tabla
