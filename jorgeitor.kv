@@ -1,15 +1,4 @@
-<screen1>:
-    id: elscreen   
-<ver_estados>:
-    canvas.before:
-        Color:
-            rgba: 0, 0, 0, 0
-        Rectangle:
-            pos: self.pos
-            size: self.size
-    Label:
-        text: "sadasdasddas"
-
+        
 
 NavigationLayout:
     id: todoDeTodo
@@ -19,7 +8,7 @@ NavigationLayout:
     	NavigationDrawerIconButton:
             text: "Alta Provedores"
             on_release:
-                screen_manager.current = "alta_proveedores"            
+                screen_manager.current = "alta_proveedores"
     	NavigationDrawerIconButton:
             text: "Configuración"
             on_release:
@@ -32,7 +21,6 @@ NavigationLayout:
             text: "Ver Estados"
             on_release:
                 screen_manager.current = "ver_estados" 
-            on_press: app.mostrarEstados()              
     BoxLayout:
         orientation: 'vertical'
         MDToolbar:
@@ -48,8 +36,18 @@ NavigationLayout:
             id: screen_manager
             Screen:
                 name: "alta_proveedores"
-                Label:
-                    text: "Ver Alta Provedores"
+                BoxLayout:
+                    orientation: 'vertical'
+                    Label:
+                        color: rgba(1,1,1)
+                        text: 'this on top'
+                    MDLabel:
+                        text: 'this right aligned'
+                        size_hint_x: None
+                        size: self.texture_size
+                        pos_hint: {'right': 1}
+                    MDLabel:
+                        text: 'this on bottom'
             Screen:
                 name: "configuracion"
                 Label:
@@ -74,22 +72,5 @@ NavigationLayout:
                             size_hint: 0.4, 0.2
                             pos: root.width-self.width, root.height / 2 - self.height / 2
                             on_press: app.guardarEstado(txt_input_nombre_estado.text)
-            Screen:                
-                name: "ver_estados"
-                ScrollView:
-                    GridLayout:
-                        id: listado_de_estados
-                        size_hint: .8,.8 #ancho de input
-                        size_hint_y: None
-                        pos_hint: {"center_x":.5,"center_y":.5}
-                        height: self.minimum_height
-                        spacing: dp(100) #espacio entre labels
-                        cols:4
-                        row_default_height: '48dp'
-                        row_force_default: True
-                        padding:[10,10,10,10]
-                        spacing: 10, 10
-                    
-
-                
-                                
+            EstadoScreen:                                
+               #:include estados.kv
