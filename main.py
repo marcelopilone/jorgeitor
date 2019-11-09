@@ -27,6 +27,7 @@ from datetime import datetime
 from pprint import pprint # esto es como el debug que usamos en cakephp se usa pprint( var )
 ## archivos python hechos por nosotros
 from database import *
+import os
 
 Config.set('graphics', 'width', 1600)
 Config.set('graphics', 'height', 800)
@@ -89,23 +90,27 @@ class MainApp(App,BoxLayout,GridLayout):
                 self.root.ids.listado_de_estados.remove_widget(botonEditar)
                 self.root.ids.listado_de_estados.remove_widget(botonEliminar)
 
-        def edicionEstado(idEstado,estadoAnterior,val):
+        def edicionEstado(idEstado,estadoAnterior,val,estadoName,pop):
             queryActualizar = db.update(estados).values(name = val).where(estados.columns.id == idEstado)
             ResultProxy = connection.execute(queryActualizar)
             if(ResultProxy):
+                estadoName.text = str('[color=000000]'+val+'[/color]')
                 print('jaja')
+                pop.dismiss()
 
-        def editarEstado(self,idEstado):
+        def editarEstado(self,idEstado,estadoName):
 
             query = db.select([estados]).where(estados.columns.id == idEstado)
             ResultProxy = connection.execute(query)
             ResultSet = ResultProxy.fetchall()
             estadoAnterior = ResultSet[0][1];
 
+            pop = Popup(title='Modificar estado',
+            size_hint=(None, None), size=(400, 400))
 
             layout       = BoxLayout( padding = 10 )
             inputEdicion = TextInput(id="txt_input_nombre_estado_edicion",text = estadoAnterior)
-            botonParaActualizar = Button(text = "Actualizar",on_press=lambda x:edicionEstado(idEstado,estadoAnterior,inputEdicion.text))
+            botonParaActualizar = Button(text = "Actualizar",on_press=lambda x:edicionEstado(idEstado,estadoAnterior,inputEdicion.text,estadoName,pop))
 
             layout.add_widget(inputEdicion)
             layout.add_widget(botonParaActualizar)
@@ -116,7 +121,7 @@ class MainApp(App,BoxLayout,GridLayout):
             pop.open()
 
         def listarBotones(self,idEstado,estadoName,estadoFechaCreacion):
-            botonEditar = Button(text='Editar',on_press = lambda x:editarEstado(self,idEstado))
+            botonEditar = Button(text='Editar',on_press = lambda x:editarEstado(self,idEstado,estadoName))
             self.root.ids.listado_de_estados.add_widget(botonEditar)
             botonEliminar = Button(text='Eliminar',on_press = lambda x:eliminarEstado(self,idEstado,estadoName,estadoFechaCreacion,botonEditar))
             botonEliminar = Button(text='Eliminar',on_press = lambda x:eliminarEstado(self,idEstado,estadoName,estadoFechaCreacion,botonEditar,botonEliminar))
