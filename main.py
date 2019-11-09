@@ -89,16 +89,26 @@ class MainApp(App,BoxLayout,GridLayout):
                 self.root.ids.listado_de_estados.remove_widget(botonEditar)
                 self.root.ids.listado_de_estados.remove_widget(botonEliminar)
 
+        def edicionEstado(idEstado,estadoAnterior,val):
+            queryActualizar = db.update(estados).values(name = val).where(estados.columns.id == idEstado)
+            ResultProxy = connection.execute(queryActualizar)
+            if(ResultProxy):
+                print('jaja')
+
         def editarEstado(self,idEstado):
 
             query = db.select([estados]).where(estados.columns.id == idEstado)
             ResultProxy = connection.execute(query)
             ResultSet = ResultProxy.fetchall()
             estadoAnterior = ResultSet[0][1];
+
+
             layout       = BoxLayout( padding = 10 )
-            inputEdicion = TextInput(text = estadoAnterior)
+            inputEdicion = TextInput(id="txt_input_nombre_estado_edicion",text = estadoAnterior)
+            botonParaActualizar = Button(text = "Actualizar",on_press=lambda x:edicionEstado(idEstado,estadoAnterior,inputEdicion.text))
 
             layout.add_widget(inputEdicion)
+            layout.add_widget(botonParaActualizar)
 
             pop = Popup(title='Modificar estado',
             content= layout,
