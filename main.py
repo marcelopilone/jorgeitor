@@ -95,13 +95,13 @@ class MainApp(App,BoxLayout,GridLayout):
             engine = base.conexion
             connection = engine.connect()
             metadata = db.MetaData()
-            transferencias = db.Table('transferencias', metadata, autoload=True, autoload_with=engine)
+            libros = db.Table('libros', metadata, autoload=True, autoload_with=engine)
             fechaCreacion = datetime.now()
-            query = db.insert(transferencias).values(fecha=fecha,num_transferencia=numTransferencia,created=fechaCreacion) 
+            query = db.insert(libros).values(name=nombreLibro,razon_social=razonSocialLibro,cbu=cbuLibro,cuil=cuilLibro,created=fechaCreacion) 
             ResultProxy = connection.execute(query)
             if( ResultProxy ):
-                pop = Popup(title='Transferencias',
-                content=Label(text='Se ha creado la transferencia con exito.'),
+                pop = Popup(title='Libros',
+                content=Label(text='Se ha creado el libro con exito.'),
                 size_hint=(None, None), size=(400, 400))
                 pop.open()
 
