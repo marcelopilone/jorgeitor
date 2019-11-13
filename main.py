@@ -63,6 +63,27 @@ class MainApp(App,BoxLayout,GridLayout):
                 size_hint=(None, None), size=(400, 400))
                 pop.open()
 
+    def guardarTransferencia(self,fecha,numTransferencia):
+        if not fecha or not numTransferencia:
+            pop = Popup(title='Transferencias',
+            content=Label(text='Por favor no cargue una transferencia vacia.'),
+            size_hint=(None, None), size=(400, 400))
+            pop.open()
+        else:
+            base = conexionBaseDeDatos()
+            engine = base.conexion
+            connection = engine.connect()
+            metadata = db.MetaData()
+            transferencias = db.Table('transferencias', metadata, autoload=True, autoload_with=engine)
+            fechaCreacion = datetime.now()
+            query = db.insert(transferencias).values(fecha=fecha,num_transferencia=numTransferencia,created=fechaCreacion) 
+            ResultProxy = connection.execute(query)
+            if( ResultProxy ):
+                pop = Popup(title='Transferencias',
+                content=Label(text='Se ha creado la transferencia con exito.'),
+                size_hint=(None, None), size=(400, 400))
+                pop.open()
+
 
     '''
         Muestra los estados
