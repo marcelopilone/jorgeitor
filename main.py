@@ -84,6 +84,27 @@ class MainApp(App,BoxLayout,GridLayout):
                 size_hint=(None, None), size=(400, 400))
                 pop.open()
 
+    def guardarLibros(self,nombreLibro,razonSocialLibro,cbuLibro,cuilLibro):
+        if not nombreLibro or not razonSocialLibro or not cbuLibro or not cuilLibro:
+            pop = Popup(title='Libros',
+            content=Label(text='Por favor no cargue libro vacio.'),
+            size_hint=(None, None), size=(400, 400))
+            pop.open()
+        else:
+            base = conexionBaseDeDatos()
+            engine = base.conexion
+            connection = engine.connect()
+            metadata = db.MetaData()
+            transferencias = db.Table('transferencias', metadata, autoload=True, autoload_with=engine)
+            fechaCreacion = datetime.now()
+            query = db.insert(transferencias).values(fecha=fecha,num_transferencia=numTransferencia,created=fechaCreacion) 
+            ResultProxy = connection.execute(query)
+            if( ResultProxy ):
+                pop = Popup(title='Transferencias',
+                content=Label(text='Se ha creado la transferencia con exito.'),
+                size_hint=(None, None), size=(400, 400))
+                pop.open()
+
 
     '''
         Muestra los estados
