@@ -15,24 +15,25 @@ NavigationLayout:
     id: todoDeTodo
     container: 'container'
     MDNavigationDrawer:
-        drawer_logo: "cir_transfer.png"
+        drawer_logo: "logo.png"
         NavigationDrawerIconButton:
             text: "Cargar transferencias"
             on_release:
                 screen_manager.current = "cargar_transferencias"
         NavigationDrawerIconButton:
+            text: "Ver transferencias"
+            on_release:
+                screen_manager.current = "ver_transferencias"
+            on_press: app.mostrarTransferencias()
+        NavigationDrawerIconButton:
             text: "Cargar libros"
             on_release:
                 screen_manager.current = "cargar_libros"
         NavigationDrawerIconButton:
-            text: "Ver transferencias"
+            text: "Ver Libros"
             on_release:
-                screen_manager.current = "ver_transferencias"
-            on_press: app.mostrarTransferencias()           
-        NavigationDrawerIconButton:
-            text: "Configuración"
-            on_release:
-                screen_manager.current = "configuracion"
+                screen_manager.current = "ver_libros" 
+            on_press: app.mostrarLibros()
         NavigationDrawerIconButton:
             text: "Cargar Estados"
             on_release:
@@ -41,12 +42,12 @@ NavigationLayout:
             text: "Ver Estados"
             on_release:
                 screen_manager.current = "ver_estados" 
-            on_press: app.mostrarEstados()   
+            on_press: app.mostrarEstados()                  
         NavigationDrawerIconButton:
-            text: "Ver Libros"
+            text: "Configuración"
             on_release:
-                screen_manager.current = "ver_libros" 
-            on_press: app.mostrarLibros()              
+                screen_manager.current = "configuracion"           
+                    
     BoxLayout:
         orientation: 'vertical'
         MDToolbar:
@@ -180,6 +181,18 @@ NavigationLayout:
                         spacing: 10, 10
             Screen:                
                 name: "ver_libros"
+                GridLayout:
+                    id: buscador_libros
+                    size_hint: .8,.8 #ancho de input
+                    size_hint_y: None
+                    pos_hint: {"center_x":.5,"center_y":.5}
+                    height: self.minimum_height
+                    spacing: dp(100) #espacio entre labels
+                    cols:6
+                    row_default_height: '48dp'
+                    row_force_default: True
+                    padding:[10,10,10,10]
+                    spacing: 10, 10
                 ScrollView:
                     GridLayout:
                         id: listado_de_libros
