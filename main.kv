@@ -41,7 +41,12 @@ NavigationLayout:
             text: "Ver Estados"
             on_release:
                 screen_manager.current = "ver_estados" 
-            on_press: app.mostrarEstados()              
+            on_press: app.mostrarEstados()   
+        NavigationDrawerIconButton:
+            text: "Ver Libros"
+            on_release:
+                screen_manager.current = "ver_libros" 
+            on_press: app.mostrarLibros()              
     BoxLayout:
         orientation: 'vertical'
         MDToolbar:
@@ -169,6 +174,21 @@ NavigationLayout:
                         height: self.minimum_height
                         spacing: dp(100) #espacio entre labels
                         cols:4
+                        row_default_height: '48dp'
+                        row_force_default: True
+                        padding:[10,10,10,10]
+                        spacing: 10, 10
+            Screen:                
+                name: "ver_libros"
+                ScrollView:
+                    GridLayout:
+                        id: listado_de_libros
+                        size_hint: .8,.8 #ancho de input
+                        size_hint_y: None
+                        pos_hint: {"center_x":.5,"center_y":.5}
+                        height: self.minimum_height
+                        spacing: dp(100) #espacio entre labels
+                        cols:6
                         row_default_height: '48dp'
                         row_force_default: True
                         padding:[10,10,10,10]

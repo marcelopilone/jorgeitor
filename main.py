@@ -310,9 +310,128 @@ class MainApp(App,BoxLayout,GridLayout):
             ResultProxy = connection.execute(query)
             ResultSet = ResultProxy.fetchall()
             ## Se muestran las filas                        
-            print(recorrerArrayTransferencias( ResultSet ))
+            recorrerArrayTransferencias( ResultSet )
 
         mostrarTablaTransferencias()
+
+    def mostrarLibros(self, **kwargs):
+
+        ## declaro la conexion y la tabla estados que es la que voy a usar en esta funcion
+        base = conexionBaseDeDatos()
+        engine = base.conexion
+        connection = engine.connect()
+        metadata = db.MetaData()
+        libros = db.Table('libros', metadata, autoload=True, autoload_with=engine)
+
+        def eliminarLibro(self,idDelLibro,nombreLib,razonSocialLibro,cbuLibro,cuilLibro,botonEditar,botonEliminar):
+            base = conexionBaseDeDatos()
+            engine = base.conexion
+            connection = engine.connect()
+            query = db.delete(libros)
+            query = query.where(libros.columns.id == idDelLibro)
+            results = connection.execute(query)
+            if(results):
+                self.root.ids.listado_de_libros.remove_widget(nombreLib)
+                self.root.ids.listado_de_libros.remove_widget(razonSocialLibro)
+                self.root.ids.listado_de_libros.remove_widget(cbuLibro)
+                self.root.ids.listado_de_libros.remove_widget(cuilLibro)
+                self.root.ids.listado_de_libros.remove_widget(botonEditar)
+                self.root.ids.listado_de_libros.remove_widget(botonEliminar)
+
+        def edicionLibro(self,idDelLibro,inputEdicion,inputEdicionRazonSocial,inputCbu,inputCuil,nombreLib,razonSocialLibro,cbuLibro,cuilLibro,pop):
+            queryActualizar = db.update(libros).values(name = inputEdicion.text,razon_social = inputEdicionRazonSocial.text,cbu=inputCbu.text,cuil=inputCuil.text).where(libros.columns.id == idDelLibro)
+            ResultProxy = connection.execute(queryActualizar)
+            if(ResultProxy):
+                nombreLib.text = str('[color=000000]'+inputEdicion.text+'[/color]')
+                razonSocialLibro.text = str('[color=000000]'+inputEdicionRazonSocial.text+'[/color]')
+                cbuLibro.text = str('[color=000000]'+inputCbu.text+'[/color]')
+                cuilLibro.text = str('[color=000000]'+inputCuil.text+'[/color]')
+                print('jaja')
+                pop.dismiss()
+
+        def editarLibro(self,idDelLibro,nombreLib,razonSocialLibro,cbuLibro,cuilLibro):
+
+
+            query = db.select([libros]).where(libros.columns.id == idDelLibro)
+            ResultProxy = connection.execute(query)
+            ResultSet = ResultProxy.fetchall()
+            nombreLibAnterior = ResultSet[0][1];
+            razonSocialLibAnterior = ResultSet[0][2];
+            cbuLibAnterior = ResultSet[0][3];
+            cuilLibAnterior = ResultSet[0][4];
+            pop = Popup(title='Modificar libro',
+            size_hint=(None, None), size=(400, 400))
+
+            layout       = BoxLayout( orientation='vertical' )
+            labelNombre = Label(text = "Nombre")
+            inputEdicion = TextInput(id="txt_input_nombre",text = str(nombreLibAnterior))
+            labelRazonSocial = Label(text = "Razón social")
+            inputEdicionRazonSocial = TextInput(id="txt_input_razon_social",text = str(razonSocialLibAnterior))
+            labelCbu = Label(text = "CBU")
+            inputCbu = TextInput(id="txt_input_cbu",text = str(cbuLibAnterior))
+            labelCuil = Label(text = "Cuil")
+            inputCuil = TextInput(id="txt_input_cuil",text = str(cuilLibAnterior))
+            botonParaActualizar = Button(text = "Actualizar",on_press=lambda x:edicionLibro(self,idDelLibro,inputEdicion,inputEdicionRazonSocial,inputCbu,inputCuil,nombreLib,razonSocialLibro,cbuLibro,cuilLibro,pop))
+
+            layout.add_widget(labelNombre)
+            layout.add_widget(inputEdicion)
+            layout.add_widget(labelRazonSocial)
+            layout.add_widget(inputEdicionRazonSocial)
+            layout.add_widget(labelCbu)
+            layout.add_widget(inputCbu)
+            layout.add_widget(labelCuil)
+            layout.add_widget(inputCuil)
+            layout.add_widget(botonParaActualizar)
+
+            pop = Popup(title='Modificar libro',
+            content= layout,
+            size_hint=(None, None), size=(400, 400))
+            pop.open()
+
+        def listarBotonesLibro(self,idDelLibro,nombreLib,razonSocialLibro,cbuLibro,cuilLibro):
+            botonEditar = Button(text='Editar',on_press = lambda x:editarLibro(self,idDelLibro,nombreLib,razonSocialLibro,cbuLibro,cuilLibro))
+            self.root.ids.listado_de_libros.add_widget(botonEditar)
+            botonEliminar = Button(text='Eliminar',on_press = lambda x:eliminarLibro(self,idDelLibro,nombreLib,razonSocialLibro,cbuLibro,cuilLibro,botonEditar))
+            botonEliminar = Button(text='Eliminar',on_press = lambda x:eliminarLibro(self,idDelLibro,nombreLib,razonSocialLibro,cbuLibro,cuilLibro,botonEditar,botonEliminar))
+            self.root.ids.listado_de_libros.add_widget(botonEliminar)
+
+        def recorrerArrayLibros( arrayVar ):
+            for x in arrayVar[:20]:
+                idDelLibro = x[0]
+                nombreLib = Label(text='[color=000000]'+str(x[1])+'[/color]',font_size='20sp',markup = True)
+                self.root.ids.listado_de_libros.add_widget(nombreLib)
+                razonSocialLibro = Label(text='[color=000000]'+str(x[2])+'[/color]',font_size='20sp',markup = True)
+                self.root.ids.listado_de_libros.add_widget(razonSocialLibro)
+                cbuLibro = Label(text='[color=000000]'+str(x[3])+'[/color]',font_size='20sp',markup = True)
+                self.root.ids.listado_de_libros.add_widget(cbuLibro)
+                cuilLibro = Label(text='[color=000000]'+str(x[4])+'[/color]',font_size='20sp',markup = True)
+                self.root.ids.listado_de_libros.add_widget(cuilLibro)
+
+                listarBotonesLibro(self,idDelLibro,nombreLib,razonSocialLibro,cbuLibro,cuilLibro)
+
+        def mostrarTablaLibros():
+            ## Agrego las cabeceras de la tabla
+            self.root.ids.listado_de_libros.clear_widgets()
+            nombreLibro = Label(id='hola',text='[color=000000]Nombre[/color]',font_size='22sp',markup = True,line_height = 150)
+            self.root.ids.listado_de_libros.add_widget(nombreLibro)
+            razonSocial = Label(text='[color=000000]Razón social[/color]',font_size='22sp',markup = True,line_height = 150)
+            self.root.ids.listado_de_libros.add_widget(razonSocial)
+            cbu = Label(text='[color=000000]CBU[/color]',font_size='22sp',markup = True,line_height = 150)
+            self.root.ids.listado_de_libros.add_widget(cbu)
+            cuil = Label(text='[color=000000]Cuil[/color]',font_size='22sp',markup = True,line_height = 150)
+            self.root.ids.listado_de_libros.add_widget(cuil)            
+            acciones = Label(text='[color=000000]Acciones[/color]',font_size='22sp',markup = True,line_height = 150)
+            self.root.ids.listado_de_libros.add_widget(acciones)
+            campoVacio = Label(text='[color=000000][/color]',font_size='22sp',markup = True,line_height = 150)
+            self.root.ids.listado_de_libros.add_widget(campoVacio)
+            # traigo los datos            
+            query = db.select([libros])
+            ResultProxy = connection.execute(query)
+            ResultSet = ResultProxy.fetchall()
+            ## Se muestran las filas                        
+            print(recorrerArrayLibros( ResultSet ))
+
+        mostrarTablaLibros()
 
 
 class ver_estados(Screen):
